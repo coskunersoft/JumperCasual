@@ -4,16 +4,23 @@ using UnityEngine;
 using Coskunerov.Actors;
 using Coskunerov.Tools;
 using Sirenix.OdinInspector;
+using DG.Tweening;
 
 public class Player : GameSingleActor<Player>
 {
     private Rigidbody rb;
     private InputManager inputManager;
     [SerializeField]private float movementSpeed;
+    [SerializeField] private float strectSpeed = 1f;
+    [SerializeField] private float JumpMultipler = 400;
     [ReadOnly] [SerializeField] private bool isGrounded = false;
+    
     private bool strecing = false;
     [ReadOnly][SerializeField] private float strectAmount;
-    public const float JumpMultipler = 400;
+    
+
+    [SerializeField] private SkinnedMeshRenderer SkinnedMeshRenderer;
+    private Tween tween;
 
 
     public override void ActorAwake()
@@ -40,24 +47,40 @@ public class Player : GameSingleActor<Player>
         if (Input.GetMouseButton(0))
         {
             strecing = true;
+            tween.Kill();
         }
         else if (Input.GetMouseButtonUp(0))
         {
             strecing = false;
-            JumpController();
+            Jump();
         }
 
         if (strecing)
         {
-            strectAmount += Time.deltaTime;
+            strectAmount += Time.deltaTime*strectSpeed;
+            strectAmount = Mathf.Clamp(strectAmount,0, 5f);
+            SkinnedMeshRenderer.SetBlendShapeWeight(0, (strectAmount / 5f) * 100);
         }
     }
 
-    private void JumpController()
+   
+
+    private void Jump()
     {
-        rb.AddForce((Vector3.forward + Vector3.up) * strectAmount * JumpMultipler);
+        tween.Kill();
+
+        float value = SkinnedMeshRenderer.GetBlendShapeWeight(0);
+        DOTween.To(() => value, x => value = x, 0, 0.1f).SetEase(Ease.InOutBounce).OnUpdate(()=>
+        {
+            SkinnedMeshRenderer.SetBlendShapeWeight(0, value);
+        });
+       
+        rb.AddForce((Vector3.forward + Vector3.up*0.75f) * strectAmount * JumpMultipler);
         strectAmount = 0;
     }
+
+
+
 
     #region Touches
     private void OnTriggerEnter(Collider other)
@@ -81,6 +104,36 @@ public class Player : GameSingleActor<Player>
     public void OnEnterGround(Ground ground)
     {
         isGrounded = true;
+
+        float hitForce = Mathf.Clamp(Mathf.Abs(rb.velocity.magnitude),0,10);
+        if (hitForce > 2)
+        if (!tween.IsActive())
+            GroundHitAnimation((hitForce/10f)*100);
+    }
+
+    private void GroundHitAnimation(float maxValue=100)
+    {
+        tween.Kill();
+        float value = SkinnedMeshRenderer.GetBlendShapeWeight(0);
+        float max= maxValue;
+        float timex = 0.2f;
+        Sequence x = DOTween.Sequence();
+        x.Append(DOTween.To(() => value, x => value = x,max, timex)).
+            Append(DOTween.To(() => value, x => value = x, 0, timex).OnComplete(() =>
+            {
+                Debug.Log("xxx");
+                timex += 0.05f;
+                max -= Random.Range((maxValue*30)/100, (maxValue * 40) / 100);
+                if (max <= 0)
+                    tween.Kill();
+            }))
+            .SetLoops(-1,LoopType.Restart).OnUpdate(Updated);
+        tween = x;
+
+        void Updated()
+        {
+            SkinnedMeshRenderer.SetBlendShapeWeight(0, value);
+        }
     }
 
     #endregion
