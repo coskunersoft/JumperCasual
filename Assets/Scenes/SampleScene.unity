@@ -675,6 +675,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3642655248895214960, guid: c1026d652403e47539b2abeeda801924, type: 3}
+      propertyPath: m_BlendShapeWeights.Array.data[0]
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8788492610771900319, guid: c1026d652403e47539b2abeeda801924, type: 3}
       propertyPath: m_Name
       value: Player
@@ -682,10 +686,6 @@ PrefabInstance:
     - target: {fileID: 8788492610771900319, guid: c1026d652403e47539b2abeeda801924, type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788492610771900321, guid: c1026d652403e47539b2abeeda801924, type: 3}
-      propertyPath: JumpMultipler
-      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 8788492610771900322, guid: c1026d652403e47539b2abeeda801924, type: 3}
       propertyPath: m_RootOrder
