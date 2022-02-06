@@ -20,7 +20,11 @@ public class CameraActor : GameSingleActor<CameraActor>
 
     public void SetTarget(Transform target,bool setNormal=false)
     {
-        cameraProfils.ForEach(x => x.camera.Follow = target);
+        cameraProfils.ForEach(x =>
+        {
+            x.camera.Follow = target;
+            x.camera.LookAt = target;
+        });
         if (setNormal) SwitchCamera(CameraType.CharacterFollow);
     }
 
