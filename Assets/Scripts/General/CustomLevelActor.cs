@@ -11,5 +11,10 @@ public class CustomLevelActor : LevelActor
     public override void SetupLevel()
     {
         base.SetupLevel();
+
+        GameObject playerCreated = Instantiate(GameData.Instance.PlayerPrefab, playerPoint.position, Quaternion.identity);
+        CameraActor.Instance.SetTarget(playerCreated.transform,true);
+        playerCreated.transform.SetParent(transform);
+      
     }
 }

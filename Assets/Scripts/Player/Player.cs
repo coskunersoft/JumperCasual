@@ -1,18 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Coskunerov.Actors;
+using Coskunerov.Tools;
 
-public class Player : MonoBehaviour
+public class Player : GameSingleActor<Player>
 {
-    // Start is called before the first frame update
-    void Start()
+    private Rigidbody rb;
+    private InputManager inputManager;
+    [SerializeField]private float movementSpeed;
+
+
+    public override void ActorAwake()
     {
-        
+        rb = GetComponent<Rigidbody>();
+        inputManager = GetComponent<InputManager>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void ActorUpdate()
     {
-        
+        MovementController();
+    }
+
+    private void MovementController()
+    {
+        rb.velocity = new Vector3(0, rb.velocity.y, movementSpeed);
     }
 }
+ 
