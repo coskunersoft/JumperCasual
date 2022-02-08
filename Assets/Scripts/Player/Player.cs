@@ -59,6 +59,7 @@ public class Player : GameSingleActor<Player>
         {
             strectAmount += Time.deltaTime*strectSpeed;
             strectAmount = Mathf.Clamp(strectAmount,0, 5f);
+            SkinnedMeshRenderer.SetBlendShapeWeight(1, 0);
             SkinnedMeshRenderer.SetBlendShapeWeight(0, (strectAmount / 5f) * 100);
         }
     }
@@ -133,6 +134,7 @@ public class Player : GameSingleActor<Player>
         void Updated()
         {
             SkinnedMeshRenderer.SetBlendShapeWeight(0, value);
+            SkinnedMeshRenderer.SetBlendShapeWeight(1, value/2);
         }
     }
 

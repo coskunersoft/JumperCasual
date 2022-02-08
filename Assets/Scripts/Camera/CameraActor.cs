@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Coskunerov.Actors;
 using Cinemachine;
-
+using Coskunerov.Utilities;
+using Coskunerov.Resources;
 
 public class CameraActor : GameSingleActor<CameraActor>
 {
@@ -16,6 +17,7 @@ public class CameraActor : GameSingleActor<CameraActor>
         if (findedcamera == null) return;
         cameraProfils.ForEach(x => x.camera.gameObject.SetActive(false));
         findedcamera.camera.gameObject.SetActive(true);
+
     }
 
     public void SetTarget(Transform target,bool setNormal=false)
