@@ -215,7 +215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 4
-  strectSpeed: 5
+  strectSpeed: 10
   JumpMultipler: 250
   isGrounded: 0
   strectAmount: 0

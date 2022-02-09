@@ -18,10 +18,11 @@ public class Player : GameSingleActor<Player>
     private bool strecing = false;
     [ReadOnly][SerializeField] private float strectAmount;
     
-
     [SerializeField] private SkinnedMeshRenderer SkinnedMeshRenderer;
-    private Tween tween;
 
+    private float horizontalBlendShapeValue;
+    private float vibrationTime = 0;
+    private float vibrationForce = 0;
 
     public override void ActorAwake()
     {
@@ -33,6 +34,7 @@ public class Player : GameSingleActor<Player>
     {
         MovementController();
         TabController();
+        VibrationController();
     }
 
     private void MovementController()
@@ -40,14 +42,33 @@ public class Player : GameSingleActor<Player>
         rb.velocity = new Vector3(0, rb.velocity.y, movementSpeed);
     }
 
+    private void VibrationController()
+    {
+        vibrationTime += Time.deltaTime;
+        if (vibrationTime >= Mathf.PI * 2) vibrationTime = 0;
+        horizontalBlendShapeValue = Mathf.Sin(vibrationTime * 10) * 50 * vibrationForce;
+        SkinnedMeshRenderer.SetBlendShapeWeight(horizontalBlendShapeValue > 0 ? 1 : 2, horizontalBlendShapeValue > 0 ? horizontalBlendShapeValue : Mathf.Abs(horizontalBlendShapeValue));
+    }
+    Tween forceMinimizer;
+    private void VibrationForceAdd(float force)
+    {
+        if (force < 3f) return;
+        DOTween.To(() => vibrationForce, x => vibrationForce = x, 1, 0.2f).OnComplete(()=>
+        {
+            if (forceMinimizer.IsActive()) forceMinimizer.Kill();
+            forceMinimizer = DOTween.To(() => vibrationForce, x => vibrationForce = x, 0, 1);
+        });
+        
+    }
+
     private void TabController()
     {
+        
         if (!isGrounded) return;
 
         if (Input.GetMouseButton(0))
         {
             strecing = true;
-            tween.Kill();
         }
         else if (Input.GetMouseButtonUp(0))
         {
@@ -59,28 +80,31 @@ public class Player : GameSingleActor<Player>
         {
             strectAmount += Time.deltaTime*strectSpeed;
             strectAmount = Mathf.Clamp(strectAmount,0, 5f);
-            SkinnedMeshRenderer.SetBlendShapeWeight(1, 0);
             SkinnedMeshRenderer.SetBlendShapeWeight(0, (strectAmount / 5f) * 100);
         }
+       
     }
-
-   
 
     private void Jump()
     {
-        tween.Kill();
+        vibrationForce = 0;
 
         float value = SkinnedMeshRenderer.GetBlendShapeWeight(0);
         DOTween.To(() => value, x => value = x, 0, 0.1f).SetEase(Ease.InOutBounce).OnUpdate(()=>
         {
             SkinnedMeshRenderer.SetBlendShapeWeight(0, value);
         });
-       
-        rb.AddForce((Vector3.forward + Vector3.up*0.75f) * strectAmount * JumpMultipler);
+
+        float jumpForceFinal = strectAmount * JumpMultipler;
+        float jumpForceLimitNormal = jumpForceFinal / (5 * JumpMultipler);
+        float value2 = SkinnedMeshRenderer.GetBlendShapeWeight(1);
+        DOTween.To(() => value2, x => value2 = x, 65 * jumpForceLimitNormal, 0.2f * jumpForceLimitNormal).SetEase(Ease.InOutBounce).OnUpdate(() =>
+            {
+                SkinnedMeshRenderer.SetBlendShapeWeight(1, value2);
+            });
+        rb.AddForce((Vector3.forward + Vector3.up * 0.75f) * jumpForceFinal);
         strectAmount = 0;
     }
-
-
 
 
     #region Touches
@@ -101,42 +125,16 @@ public class Player : GameSingleActor<Player>
     public void OnExitGround(Ground ground)
     {
         isGrounded = false;
+       
     }
     public void OnEnterGround(Ground ground)
     {
         isGrounded = true;
-
-        float hitForce = Mathf.Clamp(Mathf.Abs(rb.velocity.magnitude),0,10);
-        if (hitForce > 2)
-        if (!tween.IsActive())
-            GroundHitAnimation((hitForce/10f)*100);
+        float hitForce = Mathf.Clamp(Mathf.Abs(rb.velocity.y), 0, 4f);
+        VibrationForceAdd(hitForce);
     }
 
-    private void GroundHitAnimation(float maxValue=100)
-    {
-        tween.Kill();
-        float value = SkinnedMeshRenderer.GetBlendShapeWeight(0);
-        float max= maxValue;
-        float timex = 0.2f;
-        Sequence x = DOTween.Sequence();
-        x.Append(DOTween.To(() => value, x => value = x,max, timex)).
-            Append(DOTween.To(() => value, x => value = x, 0, timex).OnComplete(() =>
-            {
-                Debug.Log("xxx");
-                timex += 0.05f;
-                max -= Random.Range((maxValue*30)/100, (maxValue * 40) / 100);
-                if (max <= 0)
-                    tween.Kill();
-            }))
-            .SetLoops(-1,LoopType.Restart).OnUpdate(Updated);
-        tween = x;
-
-        void Updated()
-        {
-            SkinnedMeshRenderer.SetBlendShapeWeight(0, value);
-            SkinnedMeshRenderer.SetBlendShapeWeight(1, value/2);
-        }
-    }
+    
 
     #endregion
 
