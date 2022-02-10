@@ -10,6 +10,8 @@ public class Player : GameSingleActor<Player>
 {
     private Rigidbody rb;
     private InputManager inputManager;
+    [SerializeField] private LayerMask layerMask;
+    [SerializeField] private float rayDistance = 2f;
     [SerializeField]private float movementSpeed;
     [SerializeField] private float strectSpeed = 1f;
     [SerializeField] private float JumpMultipler = 400;
@@ -36,7 +38,14 @@ public class Player : GameSingleActor<Player>
         TabController();
         VibrationController();
     }
-    
+
+    public override void ActorFixedUpdate()
+    {
+        Ray ray = new Ray(transform.position, -transform.up);
+        Debug.DrawRay(ray.origin, ray.direction* rayDistance, Color.blue, 0.1f);
+        isGrounded = Physics.Raycast(ray, rayDistance, layerMask);
+    }
+
     private void MovementController()
     {
         if(isGrounded)
@@ -53,7 +62,7 @@ public class Player : GameSingleActor<Player>
     Tween forceMinimizer;
     private void VibrationForceAdd(float force)
     {
-        if (force < 3f) return;
+        if (force < 1f) return;
         DOTween.To(() => vibrationForce, x => vibrationForce = x, 1, 0.2f).OnComplete(()=>
         {
             if (forceMinimizer.IsActive()) forceMinimizer.Kill();
@@ -64,9 +73,6 @@ public class Player : GameSingleActor<Player>
 
     private void TabController()
     {
-        
-        if (!isGrounded) return;
-
         if (Input.GetMouseButton(0))
         {
             strecing = true;
@@ -76,7 +82,7 @@ public class Player : GameSingleActor<Player>
             strecing = false;
             Jump();
         }
-
+        if (!isGrounded) return;
         if (strecing)
         {
             strectAmount += Time.deltaTime*strectSpeed;
@@ -104,9 +110,10 @@ public class Player : GameSingleActor<Player>
                 SkinnedMeshRenderer.SetBlendShapeWeight(1, value2);
             }).OnComplete(()=>
             {
-                if (jumpForceLimitNormal >= 1)
+                if (jumpForceLimitNormal >= 0.5f)
                 {
-                    transform.DORotate(transform.eulerAngles + Vector3.right * 360, 0.5f, RotateMode.FastBeyond360);
+                    int repeatCount = Mathf.Clamp((int)(2f * jumpForceLimitNormal), 0, 2);
+                    transform.DORotate(transform.eulerAngles + Vector3.right * 360, 0.75f, RotateMode.FastBeyond360).SetLoops(repeatCount, LoopType.Restart).SetEase(Ease.Linear);
                 }
             });
         rb.AddForce((transform.forward+transform.up*.75f) * jumpForceFinal,ForceMode.Impulse);
@@ -132,17 +139,14 @@ public class Player : GameSingleActor<Player>
 
     public void OnExitGround(Ground ground)
     {
-        isGrounded = false;
+        
        
     }
     public void OnEnterGround(Ground ground)
     {
-        isGrounded = true;
-            SkinnedMeshRenderer.SetBlendShapeWeight(1, 0);
-
+        SkinnedMeshRenderer.SetBlendShapeWeight(1, 0);
         float hitForce = Mathf.Clamp(Mathf.Abs(rb.velocity.y), 0, 4f);
         VibrationForceAdd(hitForce);
-
     }
 
     

@@ -214,9 +214,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56f46fa2be16443e4a52ca5c70fb6774, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 8
+  rayDistance: 2
   movementSpeed: 7
   strectSpeed: 10
-  JumpMultipler: 5
+  JumpMultipler: 3
   isGrounded: 0
   strectAmount: 0
   SkinnedMeshRenderer: {fileID: 8866232993200283267}
