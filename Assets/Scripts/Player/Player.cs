@@ -36,10 +36,11 @@ public class Player : GameSingleActor<Player>
         TabController();
         VibrationController();
     }
-
+    
     private void MovementController()
     {
-        rb.velocity = new Vector3(0, rb.velocity.y, movementSpeed);
+        if(isGrounded)
+        rb.velocity = new Vector3(0, rb.velocity.y,movementSpeed);
     }
 
     private void VibrationController()
@@ -101,8 +102,15 @@ public class Player : GameSingleActor<Player>
         DOTween.To(() => value2, x => value2 = x, 65 * jumpForceLimitNormal, 0.2f * jumpForceLimitNormal).SetEase(Ease.InOutBounce).OnUpdate(() =>
             {
                 SkinnedMeshRenderer.SetBlendShapeWeight(1, value2);
+            }).OnComplete(()=>
+            {
+                if (jumpForceLimitNormal >= 1)
+                {
+                    transform.DORotate(transform.eulerAngles + Vector3.right * 360, 0.5f, RotateMode.FastBeyond360);
+                }
             });
-        rb.AddForce((Vector3.forward + Vector3.up * 0.75f) * jumpForceFinal);
+        rb.AddForce((transform.forward+transform.up*.75f) * jumpForceFinal,ForceMode.Impulse);
+        Debug.Log("jUMOP Force :: " + jumpForceFinal);
         strectAmount = 0;
     }
 
@@ -130,8 +138,11 @@ public class Player : GameSingleActor<Player>
     public void OnEnterGround(Ground ground)
     {
         isGrounded = true;
+            SkinnedMeshRenderer.SetBlendShapeWeight(1, 0);
+
         float hitForce = Mathf.Clamp(Mathf.Abs(rb.velocity.y), 0, 4f);
         VibrationForceAdd(hitForce);
+
     }
 
     
