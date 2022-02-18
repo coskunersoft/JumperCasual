@@ -6,17 +6,17 @@ public class Ground : MonoBehaviour, ICollisionExitListerner, ICollisionEnterLis
 {
     public void OnCollisionExitListen(MonoBehaviour toucher)
     {
-        if (toucher is Player player)
+        if (toucher is Jumper jumper)
         {
-            player.OnExitGround(this);
+            jumper.OnExitGround(this);
         }
     }
 
     public void OnCollisionEnterListen(MonoBehaviour toucher)
     {
-        if(toucher is Player player)
+        if(toucher is Jumper jumper)
         {
-            player.OnEnterGround(this);
+            jumper.OnEnterGround(this);
         }
     }
 }
