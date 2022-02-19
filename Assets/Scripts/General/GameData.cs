@@ -5,5 +5,6 @@ using Coskunerov.Actors;
 
 public class GameData : GameSingleActor<GameData>
 {
-    public GameObject PlayerPrefab; 
+    public GameObject PlayerPrefab;
+    public GameObject BotPrefab;
 }

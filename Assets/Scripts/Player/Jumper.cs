@@ -100,6 +100,12 @@ public abstract class Jumper : GameActor<GameManager>
         strectAmount = 0;
     }
 
+    protected void MovementController()
+    {
+        if (isGrounded)
+            rb.velocity = new Vector3(0, rb.velocity.y, movementSpeed);
+    }
+
     protected virtual void Dead(DeadType deadType)
     {
         if (isDead) return;

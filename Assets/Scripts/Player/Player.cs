@@ -9,12 +9,13 @@ using Coskunerov.Managers;
 
 public class Player : Jumper
 {
-
+    public static Player Instance;
     protected InputManager inputManager;
 
     public override void ActorAwake()
     {
         base.ActorAwake();
+        Instance = this;
         inputManager = GetComponent<InputManager>();
     }
 
