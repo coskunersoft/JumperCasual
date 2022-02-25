@@ -450,7 +450,9 @@ MonoBehaviour:
     m_Bits: 8
   rayDistance: 2
   movementSpeed: 11
+  movementLocked: 0
   strectSpeed: 10
+  externalJumpMultiper: 1
   JumpMultipler: 3
   isGrounded: 0
   strectAmount: 0

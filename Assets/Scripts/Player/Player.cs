@@ -95,7 +95,7 @@ public class Player : Jumper
         mainCollider.material = nonBouncyMaterial;
         Debug.Log("Falled Down");
         if (rotationTween.IsActive()) rotationTween.Kill();
-        rb.AddForce((Vector3.down*1.5f+Vector3.forward) * 300);
+        rb.AddForce((Vector3.down*3f+Vector3.forward) * 300);
     }
 
     protected override void Dead(DeadType deadType)

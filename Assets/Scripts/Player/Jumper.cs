@@ -19,6 +19,7 @@ public abstract class Jumper : GameActor<GameManager>
     [SerializeField] protected float movementSpeed;
     [SerializeField] protected bool movementLocked;
     [SerializeField] protected float strectSpeed = 1f;
+    [SerializeField] private float externalJumpMultiper = 1.5f;
     [SerializeField] protected float JumpMultipler = 400;
     [ReadOnly] [SerializeField] protected bool isGrounded = false;
 
@@ -107,7 +108,7 @@ public abstract class Jumper : GameActor<GameManager>
                 });
             }
         });
-        rb.AddForce((Vector3.up * 0.8f) * jumpForceFinal*1.5f, ForceMode.Impulse);
+        rb.AddForce((Vector3.up * 0.8f) * jumpForceFinal* externalJumpMultiper, ForceMode.Impulse);
         Debug.Log("jUMOP Force :: " + jumpForceFinal);
         strectAmount = 0;
     }
