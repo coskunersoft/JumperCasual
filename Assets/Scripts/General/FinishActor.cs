@@ -11,6 +11,7 @@ public class FinishActor : MonoBehaviour , ITriggerListener
     }
     public void OnTriggerEnterListen(MonoBehaviour toucher)
     {
+        if (!Coskunerov.Managers.GameManager.Instance.runtime.isGameStarted) return;
         if (toucher is Jumper jumper)
         {
             jumper.OnTouchedFinish(this);

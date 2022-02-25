@@ -16,9 +16,19 @@ public class CustomLevelActor : LevelActor
         GameObject playerCreated = Instantiate(GameData.Instance.PlayerPrefab, playerPoint.position, Quaternion.identity);
         CameraActor.Instance.SetTarget(playerCreated.transform,true);
         playerCreated.transform.SetParent(transform);
+        if (playerCreated.TryGetComponent(out Player player))
+        {
+            player.UpdateCheckPoint(playerPoint);
+        }
+
 
         GameObject botCreated = Instantiate(GameData.Instance.BotPrefab, botPoint.position, Quaternion.identity);
         botCreated.transform.SetParent(transform);
+        if (botCreated.TryGetComponent(out BotPlayer botPlayer))
+        {
+            botPlayer.UpdateCheckPoint(botPoint);
+        }
+        Coskunerov.Managers.GameManager.Instance.StartLevel();
 
     }
 }

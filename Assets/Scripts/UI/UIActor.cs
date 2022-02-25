@@ -6,10 +6,14 @@ using Coskunerov.EventBehaviour.Attributes;
 using Coskunerov.Actors;
 using TMPro;
 using Coskunerov.Managers;
+using UnityEngine.UI;
+using DG.Tweening;
 
 public class UIActor : GameSingleActor<UIActor>
 {
     public GameObject InGameWindow;
+    public Text ActionText;
+    public List<string> ActionTextList;
     public GameObject WinGameWindow;
     public GameObject LoseGameWindow;
     public GameObject Tutorial;
@@ -58,4 +62,20 @@ public class UIActor : GameSingleActor<UIActor>
     {
         Tutorial.gameObject.SetActive(false);
     }
+    [GE(3000)]
+    public void ShowActionText()
+    {
+        if (Random.Range(0, 10) > 5) return;  
+        StartCoroutine(delay());
+        IEnumerator delay()
+        {
+            ActionText.text = ActionTextList[Random.Range(0,ActionTextList.Count)];
+            ActionText.gameObject.SetActive(true);
+            ActionText.transform.DOPunchScale(Vector3.one, 0.5f);
+            yield return new WaitForSeconds(2);
+            ActionText.gameObject.SetActive(false);
+        }
+    }
+
+
 }

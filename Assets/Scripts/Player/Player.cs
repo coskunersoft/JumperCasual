@@ -11,12 +11,18 @@ public class Player : Jumper
 {
     public static Player Instance;
     protected InputManager inputManager;
+    [SerializeField][ReadOnly]private bool canFallDown = false;
+    [SerializeField] private PhysicMaterial bouncyMaterial;
+    [SerializeField] private PhysicMaterial nonBouncyMaterial;
+    [SerializeField] private Collider mainCollider;
+    private bool falling = false;
 
     public override void ActorAwake()
     {
         base.ActorAwake();
         Instance = this;
         inputManager = GetComponent<InputManager>();
+        mainCollider = GetComponent<Collider>();
     }
 
     public override void ActorUpdate()
@@ -34,21 +40,35 @@ public class Player : Jumper
         MovementController();
     }
 
-    private void MovementController()
-    {
-        if(isGrounded)
-        rb.velocity = new Vector3(0, rb.velocity.y,movementSpeed);
-    }
+  
 
     private void TabController()
     {
+        if (canFallDown&&!isGrounded)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                canFallDown = false;
+                FallDown();
+                return;
+            }
+
+        }
+       
         if (Input.GetMouseButton(0))
         {
             strecing = true;
         }
         else if (Input.GetMouseButtonUp(0))
         {
+            if (strectAmount > 2.5f)
+            {
+                canFallDown = true;
+                GameManager.Instance.PushEvent(3000);
+            }
             strecing = false;
+            mainCollider.material = bouncyMaterial;
+            if(isGrounded)
             Jump();
         }
         if (!isGrounded) return;
@@ -61,18 +81,37 @@ public class Player : Jumper
        
     }
 
+    private void FallDown()
+    {
+        falling = true;
+        float ro = 0;
+        SkinnedMeshRenderer.SetBlendShapeWeight(1,0);
+        SkinnedMeshRenderer.SetBlendShapeWeight(2, 0);
+        DOTween.To(() => ro, x => ro = x, 100, 0.1f).SetEase(Ease.Linear).OnUpdate(() =>
+         {
+             SkinnedMeshRenderer.SetBlendShapeWeight(0, ro);
+         });
+        LinearSpeedReflesh(1, 5);
+        mainCollider.material = nonBouncyMaterial;
+        Debug.Log("Falled Down");
+        if (rotationTween.IsActive()) rotationTween.Kill();
+        rb.AddForce((Vector3.down*1.5f+Vector3.forward) * 300);
+    }
+
     protected override void Dead(DeadType deadType)
     {
         base.Dead(deadType);
-        GameManager.Instance.FinishLevel(false);
     }
 
-    private IEnumerator Win()
+    protected override IEnumerator WinSquence()
     {
-        gameObject.SetActive(false);
-        GameManager.Instance.FinishLevel(true);
-        yield return null;
+        yield return base.WinSquence();
+     
+        GameManager.Instance.FinishLevel(!BotPlayer.isFinished);
     }
+
+
+   
 
     #region Touches
     private void OnTriggerEnter(Collider other)
@@ -95,21 +134,27 @@ public class Player : Jumper
     public override void OnEnterGround(Ground ground)
     {
         base.OnEnterGround(ground);
+        if (falling)
+        {
+            falling = false;
+            float ro = SkinnedMeshRenderer.GetBlendShapeWeight(0);
+            Tween t = null;
+            t=DOTween.To(() => ro, x => ro = x, 0, 0.1f).SetEase(Ease.Linear).OnUpdate(() =>
+            {
+                SkinnedMeshRenderer.SetBlendShapeWeight(0, ro);
+                if (strecing&&t!=null) t.Kill();
+            });
+        }
+        
     }
     public override void OnTouchBlock(Block block)
     {
         base.OnTouchBlock(block);
     }
-    public override void OnTouchedFinish(FinishActor finishActor)
-    {
-        base.OnTouchedFinish(finishActor);
-        StartCoroutine(Win());
-
-    }
+   
     public override void OnTouchedDeadGround(DeadGround deadGround)
     {
         base.OnTouchedDeadGround(deadGround);
-        Dead(DeadType.Fall);
        
     }
     #endregion
