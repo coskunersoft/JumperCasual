@@ -18,6 +18,14 @@ public class UIActor : GameSingleActor<UIActor>
     public GameObject LoseGameWindow;
     public GameObject Tutorial;
 
+    public GameObject bigButton;
+    public Text tabToStartText;
+    Tween tabToStartTextTween=null;
+
+    public override void ActorAwake()
+    {
+        tabToStartTextTween = DOTween.Sequence().Append(tabToStartText.transform.DOScale(tabToStartText.transform.localScale / 1.2f, 0.6f)).SetLoops(-1,LoopType.Yoyo);
+    }
 
     public void ButtonClick(int id)
     {
@@ -29,8 +37,13 @@ public class UIActor : GameSingleActor<UIActor>
             case 1:
                 GameManager.Instance.NextLevel();
                 break;
+            case 2:
+                GameManager.Instance.PushEvent(4000);
+                break;
         }
     }
+
+   
     [GE(BaseGameEvents.LevelLoaded)]
     public void LoadGame()
     {
@@ -76,6 +89,16 @@ public class UIActor : GameSingleActor<UIActor>
             ActionText.gameObject.SetActive(false);
         }
     }
+    [GE(4000)]
+    public void OnGameStartTabClicked()
+    {
+        bigButton.SetActive(false);
+        if (tabToStartTextTween!=null)
+        {
+            tabToStartTextTween.Kill();
+        }
+    }
+
 
 
 }

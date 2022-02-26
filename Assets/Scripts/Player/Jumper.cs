@@ -47,6 +47,7 @@ public abstract class Jumper : GameActor<GameManager>
     public override void ActorAwake()
     {
         base.ActorAwake();
+        movementLocked = true;
         rb = GetComponent<Rigidbody>();
         meshRenderers=new List<Renderer>();
         meshRenderers.AddRange(GetComponentsInChildren<SkinnedMeshRenderer>());
@@ -208,6 +209,13 @@ public abstract class Jumper : GameActor<GameManager>
         rb.velocity = Vector3.zero;
         movementLocked = true;
     }
+
+    [GE(4000)]
+    public void OnGameStartTabClicked()
+    {
+        movementLocked = false;
+    }
+
 
     #region Touches
     private void OnTriggerEnter(Collider other)

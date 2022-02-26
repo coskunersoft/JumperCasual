@@ -42,7 +42,7 @@ public class Player : Jumper
 
     private void TabController()
     {
-       
+        if (movementLocked) return;
         if (!isGrounded)
         {
             if (Input.GetMouseButtonDown(0))
