@@ -14,7 +14,6 @@ public class Player : Jumper
     [SerializeField] private PhysicMaterial bouncyMaterial;
     [SerializeField] private PhysicMaterial nonBouncyMaterial;
     [SerializeField] private Collider mainCollider;
-    private bool falling = false;
 
     public override void ActorAwake()
     {
@@ -95,35 +94,21 @@ public class Player : Jumper
        
     }
 
-    private void FallDown()
-    {
-        falling = true;
-        float ro = 0;
-        SkinnedMeshRenderer.SetBlendShapeWeight(1,0);
-        SkinnedMeshRenderer.SetBlendShapeWeight(2, 0);
-        DOTween.To(() => ro, x => ro = x, 100, 0.1f).SetEase(Ease.Linear).OnUpdate(() =>
-         {
-             SkinnedMeshRenderer.SetBlendShapeWeight(0, ro);
-         });
-        LinearSpeedReflesh(1, 5);
-        mainCollider.material = nonBouncyMaterial;
-        Debug.Log("Falled Down");
-        if (rotationTween.IsActive()) rotationTween.Kill();
-       
-        rb.AddForce((Vector3.down*2f+Vector3.forward*0.5f) * 300);
-
-       
-    }
+   
 
     protected override void Dead(DeadType deadType)
     {
+        strecing = false;
         base.Dead(deadType);
     }
 
-    protected override IEnumerator WinSquence()
+    protected override IEnumerator WinSquence(FinishActor finishActor)
     {
         yield return base.WinSquence();
-     
+        if (!BotPlayer.isFinished)
+        {
+            finishActor.effect.SetActive(true);
+        }
         GameManager.Instance.FinishLevel(!BotPlayer.isFinished);
     }
 
@@ -151,22 +136,13 @@ public class Player : Jumper
     public override void OnEnterGround(Ground ground)
     {
         base.OnEnterGround(ground);
-        if (falling)
-        {
-            falling = false;
-            float ro = SkinnedMeshRenderer.GetBlendShapeWeight(0);
-            Tween t = null;
-            t=DOTween.To(() => ro, x => ro = x, 0, 0.1f).SetEase(Ease.Linear).OnUpdate(() =>
-            {
-                SkinnedMeshRenderer.SetBlendShapeWeight(0, ro);
-                if (strecing&&t!=null) t.Kill();
-            });
-        }
+       
         
     }
     public override void OnTouchBlock(Block block)
     {
         base.OnTouchBlock(block);
+        
     }
    
     public override void OnTouchedDeadGround(DeadGround deadGround)

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FinishActor : MonoBehaviour , ITriggerListener
 {
+    public GameObject effect;
     private Collider col;
     private void Awake()
     {

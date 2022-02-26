@@ -8,11 +8,13 @@ using Coskunerov.EventBehaviour.Attributes;
 using Coskunerov.Tools;
 using Sirenix.OdinInspector;
 using DG.Tweening;
+using System.Linq;
 
 public abstract class Jumper : GameActor<GameManager>
 {
     protected Rigidbody rb;
     protected bool isDead = false;
+    [ReadOnly] [SerializeField] private List<Renderer> meshRenderers;
     [SerializeField] protected ExplodeParts explodeParts;
     [SerializeField] protected LayerMask layerMask;
     [SerializeField] protected float rayDistance = 2f;
@@ -46,7 +48,10 @@ public abstract class Jumper : GameActor<GameManager>
     {
         base.ActorAwake();
         rb = GetComponent<Rigidbody>();
-        
+        meshRenderers=new List<Renderer>();
+        meshRenderers.AddRange(GetComponentsInChildren<SkinnedMeshRenderer>());
+        meshRenderers.AddRange(GetComponentsInChildren<MeshRenderer>());
+
     }
 
     public override void ActorUpdate()
@@ -110,6 +115,7 @@ public abstract class Jumper : GameActor<GameManager>
                 });
             }
         });
+        rb.velocity /= 5;
         rb.AddForce((Vector3.up * 0.8f) * jumpForceFinal* externalJumpMultiper, ForceMode.Impulse);
         Debug.Log("jUMOP Force :: " + jumpForceFinal);
         strectAmount = 0;
@@ -121,7 +127,6 @@ public abstract class Jumper : GameActor<GameManager>
             rb.velocity = new Vector3(0, rb.velocity.y, movementSpeed*(movementLocked?0:1));
         else
         {
-         
             rb.velocity = new Vector3(0, Controlledfalling?ControlledfallingSpeed:rb.velocity.y, movementSpeed * (movementLocked ? 0 : 1));
         }
     }
@@ -156,6 +161,7 @@ public abstract class Jumper : GameActor<GameManager>
             rb.velocity = Vector3.zero;
             transform.position = lastCheckPoint;
             gameObject.SetActive(true);
+            RestartFadeIO();
         }
     }
 
@@ -163,6 +169,21 @@ public abstract class Jumper : GameActor<GameManager>
     {
         lastCheckPoint = checkPoint.position;
     }
+
+    private async void RestartFadeIO()
+    {
+        await System.Threading.Tasks.Task.Delay(300);
+        foreach (var item in meshRenderers)
+        {
+            foreach (var item2 in item.materials)
+            {
+                var squence = DOTween.Sequence();
+                squence.Append(item2.DOFade(0f, 0.1f)).SetDelay(0.2f)
+                    .Append(item2.DOFade(1, 0.1f)).SetLoops(2).SetEase(Ease.Linear);
+            }
+        }
+    }
+
 
     Tween speedController;
     protected void LinearSpeedReflesh(float time=0.5f,float divideMultiper=5)
@@ -176,7 +197,7 @@ public abstract class Jumper : GameActor<GameManager>
         });
     }
 
-    protected virtual IEnumerator WinSquence()
+    protected virtual IEnumerator WinSquence(FinishActor finishActor=null)
     {
         yield break;
     }
@@ -220,7 +241,7 @@ public abstract class Jumper : GameActor<GameManager>
     }
     public virtual void OnTouchedFinish(FinishActor finishActor)
     {
-        StartCoroutine(WinSquence());
+        StartCoroutine(WinSquence(finishActor));
     }
     public virtual void OnTouchedDeadGround(DeadGround deadGround)
     {

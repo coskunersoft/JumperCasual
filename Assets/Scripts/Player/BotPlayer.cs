@@ -45,7 +45,7 @@ public class BotPlayer : Jumper
     }
 
 
-    protected override IEnumerator WinSquence()
+    protected override IEnumerator WinSquence(FinishActor finishActor)
     {
         yield return base.WinSquence();
         isFinished = true;

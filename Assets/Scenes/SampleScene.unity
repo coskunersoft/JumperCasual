@@ -2361,6 +2361,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2101169223088102116, guid: c1026d652403e47539b2abeeda801924, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8788492610771900319, guid: c1026d652403e47539b2abeeda801924, type: 3}
       propertyPath: m_Name
       value: Player
@@ -2411,6 +2415,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8788492610771900322, guid: c1026d652403e47539b2abeeda801924, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866232993200283267, guid: c1026d652403e47539b2abeeda801924, type: 3}
+      propertyPath: m_BlendShapeWeights.Array.data[0]
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
