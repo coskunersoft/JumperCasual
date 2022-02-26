@@ -598,14 +598,17 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 8
-  rayDistance: 2.5
+  rayDistance: 3.2
   movementSpeed: 11
+  movementLocked: 0
   strectSpeed: 10
+  externalJumpMultiper: 1.5
   JumpMultipler: 3
+  Controlledfalling: 0
+  ControlledfallingSpeed: -18
   isGrounded: 0
   strectAmount: 0
   SkinnedMeshRenderer: {fileID: 8866232993200283267}
-  canFallDown: 0
   bouncyMaterial: {fileID: 13400000, guid: 18f0653ed61054fc2a416f8d924908f4, type: 2}
   nonBouncyMaterial: {fileID: 13400000, guid: 9141eba4234ac4553803e34887d6dedd, type: 2}
   mainCollider: {fileID: 2112229471254371894}

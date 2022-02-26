@@ -21,6 +21,8 @@ public abstract class Jumper : GameActor<GameManager>
     [SerializeField] protected float strectSpeed = 1f;
     [SerializeField] private float externalJumpMultiper = 1.5f;
     [SerializeField] protected float JumpMultipler = 400;
+    [SerializeField] protected bool Controlledfalling=false;
+    [SerializeField] protected float ControlledfallingSpeed = -18f;
     [ReadOnly] [SerializeField] protected bool isGrounded = false;
 
     protected bool strecing = false;
@@ -104,7 +106,7 @@ public abstract class Jumper : GameActor<GameManager>
                 rotationTween = transform.DORotate(transform.eulerAngles + Vector3.right * 360, 0.7f, RotateMode.FastBeyond360).SetLoops(repeatCount, LoopType.Restart).SetEase(Ease.Linear)
                 .OnKill(() =>
                 {
-                    transform.eulerAngles = Vector3.zero;
+                    transform.DORotateQuaternion(Quaternion.identity, 0.25f);
                 });
             }
         });
@@ -117,6 +119,11 @@ public abstract class Jumper : GameActor<GameManager>
     {
         if (isGrounded)
             rb.velocity = new Vector3(0, rb.velocity.y, movementSpeed*(movementLocked?0:1));
+        else
+        {
+         
+            rb.velocity = new Vector3(0, Controlledfalling?ControlledfallingSpeed:rb.velocity.y, movementSpeed * (movementLocked ? 0 : 1));
+        }
     }
 
     protected virtual void Dead(DeadType deadType)

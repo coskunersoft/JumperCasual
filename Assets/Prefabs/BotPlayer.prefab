@@ -454,6 +454,8 @@ MonoBehaviour:
   strectSpeed: 10
   externalJumpMultiper: 1
   JumpMultipler: 3
+  Controlledfalling: 0
+  ControlledfallingSpeed: -18
   isGrounded: 0
   strectAmount: 0
   SkinnedMeshRenderer: {fileID: 3167202168566439659}

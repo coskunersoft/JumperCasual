@@ -11,7 +11,6 @@ public class Player : Jumper
 {
     public static Player Instance;
     protected InputManager inputManager;
-    [SerializeField][ReadOnly]private bool canFallDown = false;
     [SerializeField] private PhysicMaterial bouncyMaterial;
     [SerializeField] private PhysicMaterial nonBouncyMaterial;
     [SerializeField] private Collider mainCollider;
@@ -44,17 +43,36 @@ public class Player : Jumper
 
     private void TabController()
     {
-        if (canFallDown&&!isGrounded)
+       
+        if (!isGrounded)
         {
             if (Input.GetMouseButtonDown(0))
             {
-                canFallDown = false;
-                FallDown();
-                return;
-            }
+                float ro = SkinnedMeshRenderer.GetBlendShapeWeight(0);
+                DOTween.To(() => ro, x => ro = x, 50, 0.2f).SetEase(Ease.Linear).OnUpdate(() =>
+                {
+                    SkinnedMeshRenderer.SetBlendShapeWeight(0, ro);
+                });
+                strectAmount = 2.5f;
+                Controlledfalling = true;
+                if (rotationTween.IsActive()) rotationTween.Kill();
 
+            }
+            else if (Input.GetMouseButtonUp(0))
+            {
+                rb.velocity /= 10;
+                Controlledfalling = false;
+                float ro = SkinnedMeshRenderer.GetBlendShapeWeight(0);
+                DOTween.To(() => ro, x => ro = x, 0, 0.2f).SetEase(Ease.Linear).OnUpdate(() =>
+                {
+                    SkinnedMeshRenderer.SetBlendShapeWeight(0, ro);
+                });
+                strectAmount = 0;
+            }
+            return;
         }
-       
+
+        Controlledfalling = false;
         if (Input.GetMouseButton(0))
         {
             strecing = true;
@@ -62,13 +80,9 @@ public class Player : Jumper
         else if (Input.GetMouseButtonUp(0))
         {
             if (strectAmount > 2.5f)
-            {
-                canFallDown = true;
                 GameManager.Instance.PushEvent(3000);
-            }
             strecing = false;
             mainCollider.material = bouncyMaterial;
-            if(isGrounded)
             Jump();
         }
         if (!isGrounded) return;
@@ -95,7 +109,10 @@ public class Player : Jumper
         mainCollider.material = nonBouncyMaterial;
         Debug.Log("Falled Down");
         if (rotationTween.IsActive()) rotationTween.Kill();
-        rb.AddForce((Vector3.down*3f+Vector3.forward) * 300);
+       
+        rb.AddForce((Vector3.down*2f+Vector3.forward*0.5f) * 300);
+
+       
     }
 
     protected override void Dead(DeadType deadType)
