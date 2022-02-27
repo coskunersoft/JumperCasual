@@ -12,6 +12,8 @@ using System.Linq;
 
 public abstract class Jumper : GameActor<GameManager>
 {
+    public static bool Tutorial;
+
     protected Rigidbody rb;
     protected bool isDead = false;
     [ReadOnly] [SerializeField] private List<Renderer> meshRenderers;
@@ -38,6 +40,7 @@ public abstract class Jumper : GameActor<GameManager>
 
     protected Vector3 lastCheckPoint;
 
+
     public override void ActorStart()
     {
         base.ActorStart();
@@ -47,7 +50,11 @@ public abstract class Jumper : GameActor<GameManager>
     public override void ActorAwake()
     {
         base.ActorAwake();
-        movementLocked = true;
+        if (!Tutorial)
+        {
+            movementLocked = true;
+        }
+       
         rb = GetComponent<Rigidbody>();
         meshRenderers=new List<Renderer>();
         meshRenderers.AddRange(GetComponentsInChildren<SkinnedMeshRenderer>());

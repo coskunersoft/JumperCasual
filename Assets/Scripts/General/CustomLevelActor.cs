@@ -31,4 +31,10 @@ public class CustomLevelActor : LevelActor
         Coskunerov.Managers.GameManager.Instance.StartLevel();
 
     }
+
+[Coskunerov.EventBehaviour.Attributes.GE(Coskunerov.EventBehaviour.BaseGameEvents.FinishGame)]    
+    private void WinGame()
+    {
+        Jumper.Tutorial = true;
+    }
 }
