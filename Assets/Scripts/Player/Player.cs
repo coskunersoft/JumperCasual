@@ -87,7 +87,7 @@ public class Player : Jumper
                 if (!FeverMode)
                 {
                     FeverPrizeCounter++;
-                    if (FeverPrizeCounter >= 2)
+                    if (FeverPrizeCounter >= 3)
                     {
                         FeverPrizeCounter = 0;
                         StartCoroutine(FeverModeTimer());
@@ -98,6 +98,7 @@ public class Player : Jumper
                 {
                     GameManager.Instance.PushEvent(3001);
                     externalForce = 1.5f;
+                    if(FeverEffect)
                     FeverEffect.SetActive(true);
                 }
                 else
@@ -172,6 +173,7 @@ public class Player : Jumper
     public override void OnEnterGround(Ground ground)
     {
         base.OnEnterGround(ground);
+        if(FeverEffect)
         if (FeverEffect.activeInHierarchy)
             FeverEffect.SetActive(false);
 
