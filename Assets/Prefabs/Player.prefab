@@ -594,6 +594,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56f46fa2be16443e4a52ca5c70fb6774, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  meshRenderers: []
   explodeParts: {fileID: 8574170316129898214}
   layerMask:
     serializedVersion: 2
@@ -635,9 +636,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
-  m_Height: 1
+  m_Height: 1.2500824
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.01536868, z: 0}
 --- !u!1001 &2503423273407741290
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -704,11 +705,51 @@ PrefabInstance:
     - target: {fileID: -7696743853951924388, guid: 33ff47d006a804b88aea7790732d4887, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: aec06a755662246b0af99ab82edc2388, type: 2}
+      objectReference: {fileID: 2100000, guid: 4753950839846644ba50698966a4089a, type: 2}
     - target: {fileID: -7696743853951924388, guid: 33ff47d006a804b88aea7790732d4887, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: 59a18f8b0a2ae4e73a4bc4881eba9a2d, type: 2}
+      objectReference: {fileID: 2100000, guid: aec06a755662246b0af99ab82edc2388, type: 2}
+    - target: {fileID: -7462487336705900303, guid: 33ff47d006a804b88aea7790732d4887, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: -7462487336705900303, guid: 33ff47d006a804b88aea7790732d4887, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: -7462487336705900303, guid: 33ff47d006a804b88aea7790732d4887, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: -7462487336705900303, guid: 33ff47d006a804b88aea7790732d4887, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.17
+      objectReference: {fileID: 0}
+    - target: {fileID: -2960523025427232449, guid: 33ff47d006a804b88aea7790732d4887, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: -2960523025427232449, guid: 33ff47d006a804b88aea7790732d4887, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: -2960523025427232449, guid: 33ff47d006a804b88aea7790732d4887, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: -2960523025427232449, guid: 33ff47d006a804b88aea7790732d4887, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.000016277
+      objectReference: {fileID: 0}
+    - target: {fileID: -2960523025427232449, guid: 33ff47d006a804b88aea7790732d4887, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.33894
+      objectReference: {fileID: 0}
+    - target: {fileID: -2960523025427232449, guid: 33ff47d006a804b88aea7790732d4887, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.0057346
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 33ff47d006a804b88aea7790732d4887, type: 3}
       propertyPath: m_Name
       value: Helix_Char 1
@@ -748,11 +789,11 @@ PrefabInstance:
     - target: {fileID: 6464598245697184745, guid: 33ff47d006a804b88aea7790732d4887, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: aec06a755662246b0af99ab82edc2388, type: 2}
+      objectReference: {fileID: 2100000, guid: 4753950839846644ba50698966a4089a, type: 2}
     - target: {fileID: 6464598245697184745, guid: 33ff47d006a804b88aea7790732d4887, type: 3}
       propertyPath: m_Materials.Array.data[2]
       value: 
-      objectReference: {fileID: 2100000, guid: 59a18f8b0a2ae4e73a4bc4881eba9a2d, type: 2}
+      objectReference: {fileID: 2100000, guid: aec06a755662246b0af99ab82edc2388, type: 2}
     - target: {fileID: 6464598245697184745, guid: 33ff47d006a804b88aea7790732d4887, type: 3}
       propertyPath: m_BlendShapeWeights.Array.size
       value: 3
