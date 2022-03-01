@@ -84,8 +84,15 @@ public class Player : Jumper
             float externalForce = 1;
             if (strectAmount > 2.5f)
             {
-                
-                
+                if (!FeverMode)
+                {
+                    FeverPrizeCounter++;
+                    if (FeverPrizeCounter >= 2)
+                    {
+                        FeverPrizeCounter = 0;
+                        StartCoroutine(FeverModeTimer());
+                    }
+                }
 
                 if (FeverMode)
                 {
@@ -96,14 +103,9 @@ public class Player : Jumper
                 else
                 {
                     GameManager.Instance.PushEvent(3000);
-                    FeverPrizeCounter++;
                 }
             }
-            if (FeverPrizeCounter >= 2&&!FeverMode)
-            {
-                FeverPrizeCounter = 0;
-                StartCoroutine(FeverModeTimer());
-            }
+            
             strecing = false;
             mainCollider.material = bouncyMaterial;
 
