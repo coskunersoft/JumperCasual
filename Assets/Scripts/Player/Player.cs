@@ -14,8 +14,11 @@ public class Player : Jumper
     [SerializeField] private PhysicMaterial bouncyMaterial;
     [SerializeField] private PhysicMaterial nonBouncyMaterial;
     [SerializeField] private Collider mainCollider;
+    private int FeverPrizeCounter;
+    private bool FeverMode;
+    [SerializeField] private GameObject FeverEffect;
 
-    public override void ActorAwake()
+   public override void ActorAwake()
     {
         base.ActorAwake();
         Instance = this;
@@ -78,11 +81,34 @@ public class Player : Jumper
         }
         else if (Input.GetMouseButtonUp(0))
         {
+            float externalForce = 1;
             if (strectAmount > 2.5f)
-                GameManager.Instance.PushEvent(3000);
+            {
+                
+                
+
+                if (FeverMode)
+                {
+                    GameManager.Instance.PushEvent(3001);
+                    externalForce = 1.5f;
+                    FeverEffect.SetActive(true);
+                }
+                else
+                {
+                    GameManager.Instance.PushEvent(3000);
+                    FeverPrizeCounter++;
+                }
+            }
+            if (FeverPrizeCounter >= 2&&!FeverMode)
+            {
+                FeverPrizeCounter = 0;
+                StartCoroutine(FeverModeTimer());
+            }
             strecing = false;
             mainCollider.material = bouncyMaterial;
-            Jump();
+
+          
+            Jump(externalForce);
         }
         if (!isGrounded) return;
         if (strecing)
@@ -113,7 +139,15 @@ public class Player : Jumper
     }
 
 
-   
+   private IEnumerator FeverModeTimer()
+    {
+        movementSpeed*=1.2f;
+        FeverMode = true;
+        yield return new WaitForSeconds(3f);
+        FeverMode = false;
+        movementSpeed /= 1.2f;
+      
+    }
 
     #region Touches
     private void OnTriggerEnter(Collider other)
@@ -136,8 +170,9 @@ public class Player : Jumper
     public override void OnEnterGround(Ground ground)
     {
         base.OnEnterGround(ground);
-       
-        
+        if (FeverEffect.activeInHierarchy)
+            FeverEffect.SetActive(false);
+
     }
     public override void OnTouchBlock(Block block)
     {

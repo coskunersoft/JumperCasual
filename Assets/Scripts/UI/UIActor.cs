@@ -78,11 +78,23 @@ public class UIActor : GameSingleActor<UIActor>
     [GE(3000)]
     public void ShowActionText()
     {
-        if (Random.Range(0, 10) > 5) return;  
         StartCoroutine(delay());
         IEnumerator delay()
         {
             ActionText.text = ActionTextList[Random.Range(0,ActionTextList.Count)];
+            ActionText.gameObject.SetActive(true);
+            ActionText.transform.DOPunchScale(Vector3.one, 0.5f);
+            yield return new WaitForSeconds(2);
+            ActionText.gameObject.SetActive(false);
+        }
+    }
+    [GE(3001)]
+    public void ShowActionTextFever()
+    {
+        StartCoroutine(delay());
+        IEnumerator delay()
+        {
+            ActionText.text = "Fever Mode!";
             ActionText.gameObject.SetActive(true);
             ActionText.transform.DOPunchScale(Vector3.one, 0.5f);
             yield return new WaitForSeconds(2);

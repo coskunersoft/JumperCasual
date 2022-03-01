@@ -8,10 +8,12 @@ using Coskunerov.Managers;
 public class BotPlayer : Jumper
 {
     public static bool isFinished = false;
+    
 
     public override void ActorAwake()
     {
         isFinished = false;
+        JumpMultipler *= 1.25f;
         base.ActorAwake();
     }
 

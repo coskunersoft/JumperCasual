@@ -96,7 +96,7 @@ public abstract class Jumper : GameActor<GameManager>
     }
 
     protected Tween rotationTween;
-    protected void Jump()
+    protected void Jump(float externalForce=1)
     {
         vibrationForce = 0;
         float value = SkinnedMeshRenderer.GetBlendShapeWeight(0);
@@ -124,7 +124,12 @@ public abstract class Jumper : GameActor<GameManager>
             }
         });
         rb.velocity /= 5;
-        rb.AddForce((Vector3.up * 0.8f) * jumpForceFinal* externalJumpMultiper, ForceMode.Impulse);
+        Vector3 dir = (Vector3.up * 0.8f);
+        rb.AddForce( dir* jumpForceFinal* externalJumpMultiper*externalForce, ForceMode.Impulse);
+        if (externalForce > 1)
+        {
+            rb.AddForce(Vector3.forward * Random.Range(200, 300));
+        }
         Debug.Log("jUMOP Force :: " + jumpForceFinal);
         strectAmount = 0;
     }
@@ -175,7 +180,7 @@ public abstract class Jumper : GameActor<GameManager>
 
     public void UpdateCheckPoint(Transform checkPoint)
     {
-        lastCheckPoint = checkPoint.position;
+        lastCheckPoint = transform.position;
     }
 
     private async void RestartFadeIO()
