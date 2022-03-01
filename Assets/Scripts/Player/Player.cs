@@ -148,6 +148,10 @@ public class Player : Jumper
         FeverMode = true;
         yield return new WaitForSeconds(5f);
         FeverMode = false;
+        if (FeverEffect)
+            if (FeverEffect.activeInHierarchy)
+                FeverEffect.SetActive(false);
+
         movementSpeed /= 1.2f;
       
     }
@@ -173,10 +177,6 @@ public class Player : Jumper
     public override void OnEnterGround(Ground ground)
     {
         base.OnEnterGround(ground);
-        if(FeverEffect)
-        if (FeverEffect.activeInHierarchy)
-            FeverEffect.SetActive(false);
-
     }
     public override void OnTouchBlock(Block block)
     {
