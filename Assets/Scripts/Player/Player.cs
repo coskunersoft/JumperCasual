@@ -146,7 +146,7 @@ public class Player : Jumper
     {
         movementSpeed*=1.2f;
         FeverMode = true;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(5f);
         FeverMode = false;
         movementSpeed /= 1.2f;
       
