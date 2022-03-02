@@ -9,6 +9,7 @@ public class Block : MonoBehaviour,ITriggerListener
 
     private void Update()
     {
+        if(blockType==BlockType.Saw)
         transform.Rotate(Vector3.forward * 360 * Time.deltaTime);
     }
 
@@ -23,6 +24,6 @@ public class Block : MonoBehaviour,ITriggerListener
 
     public enum BlockType
     {
-        Saw
+        Saw,Static
     }
 }
