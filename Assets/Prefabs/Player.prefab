@@ -601,7 +601,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   rayDistance: 3.2
-  movementSpeed: 11
+  movementSpeed: 13.75
   movementLocked: 0
   strectSpeed: 10
   externalJumpMultiper: 1.5
