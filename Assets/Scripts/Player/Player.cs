@@ -96,7 +96,7 @@ public class Player : Jumper
 
                 if (FeverMode)
                 {
-                    GameManager.Instance.PushEvent(3001);
+                   // GameManager.Instance.PushEvent(3001);
                     externalForce = 1.5f;
                     if(FeverEffect)
                     FeverEffect.SetActive(true);
