@@ -175,12 +175,19 @@ public abstract class Jumper : GameActor<GameManager>
             transform.position = lastCheckPoint;
             gameObject.SetActive(true);
             RestartFadeIO();
+            Ray ray = new Ray(transform.position, -transform.up);
+            Debug.DrawRay(ray.origin, ray.direction * rayDistance, Color.blue, 0.1f);
+            Physics.Raycast(ray, out RaycastHit hit, 2000, layerMask);
+            if (hit.collider != null)
+            {
+                transform.position = hit.point+Vector3.up;
+            }
         }
     }
 
     public void UpdateCheckPoint(Transform checkPoint)
     {
-        lastCheckPoint = transform.position;
+        lastCheckPoint = transform.position+Vector3.forward*2;
     }
 
     private async void RestartFadeIO()

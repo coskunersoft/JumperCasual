@@ -82,7 +82,7 @@ public class Player : Jumper
         else if (Input.GetMouseButtonUp(0))
         {
             float externalForce = 1;
-            if (strectAmount > 2.5f)
+            if (strectAmount > 4f)
             {
                 if (!FeverMode)
                 {
@@ -106,6 +106,10 @@ public class Player : Jumper
                     GameManager.Instance.PushEvent(3000);
                 }
             }
+            else
+            {
+                FeverPrizeCounter = 0;
+            }
             
             strecing = false;
             mainCollider.material = bouncyMaterial;
@@ -128,6 +132,14 @@ public class Player : Jumper
     protected override void Dead(DeadType deadType)
     {
         strecing = false;
+        rb.velocity = Vector3.zero;
+        if (FeverMode)
+        {
+            FeverMode = false;
+            if (FeverEffect)
+                if (FeverEffect.activeInHierarchy)
+                    FeverEffect.SetActive(false);
+        }
         base.Dead(deadType);
     }
 
@@ -151,10 +163,9 @@ public class Player : Jumper
         if (FeverEffect)
             if (FeverEffect.activeInHierarchy)
                 FeverEffect.SetActive(false);
-
         movementSpeed /= 1.2f;
-      
     }
+   
 
     #region Touches
     private void OnTriggerEnter(Collider other)
