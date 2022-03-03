@@ -450,7 +450,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   rayDistance: 2
-  movementSpeed: 11
+  movementSpeed: 9.9
   movementLocked: 0
   strectSpeed: 10
   externalJumpMultiper: 1

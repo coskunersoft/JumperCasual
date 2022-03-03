@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.26990312, g: 0.6058701, b: 0.9945504, a: 1}
+  m_IndirectSpecularColor: {r: 0.27626136, g: 0.6267949, b: 0.99433213, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -672,7 +672,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 0.5625, y: 1}
+    m_SensorSize: {x: 0.5620609, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1759,6 +1759,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 625318005, guid: a61a5d69be1834580a4ca9ce34a845c1, type: 3}
+      propertyPath: BotPointValue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: dd65eb67d0d8f4883adf6da5d3479372, type: 2}
     - target: {fileID: 2558214118508762784, guid: a61a5d69be1834580a4ca9ce34a845c1, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -2632,7 +2636,6 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
 --- !u!223 &1888404925
 Canvas:
   m_ObjectHideFlags: 0
