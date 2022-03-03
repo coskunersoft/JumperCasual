@@ -269,6 +269,8 @@ public abstract class Jumper : GameActor<GameManager>
     {
         if(block.blockType==Block.BlockType.Saw)
         Dead(DeadType.SawObstackle);
+        else if (block.blockType == Block.BlockType.Static)
+            Dead(DeadType.Fall);
     }
     public virtual void OnTouchedFinish(FinishActor finishActor)
     {
