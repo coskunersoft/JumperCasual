@@ -133,6 +133,7 @@ public class Player : Jumper
     {
         strecing = false;
         rb.velocity = Vector3.zero;
+        FeverPrizeCounter = 0;
         if (FeverMode)
         {
             FeverMode = false;
