@@ -94,7 +94,7 @@ public class UIActor : GameSingleActor<UIActor>
         StartCoroutine(delay());
         IEnumerator delay()
         {
-            ActionText.text = "Fever Mode!";
+            ActionText.text = "COMBO!";
             ActionText.gameObject.SetActive(true);
             ActionText.transform.DOPunchScale(Vector3.one, 0.5f);
             yield return new WaitForSeconds(2);

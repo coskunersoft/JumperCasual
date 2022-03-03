@@ -181,7 +181,7 @@ public abstract class Jumper : GameActor<GameManager>
             Physics.Raycast(ray, out RaycastHit hit, 2000, layerMask);
             if (hit.collider != null)
             {
-                transform.position = hit.point+Vector3.up;
+                transform.position = hit.point+Vector3.up*1.5f;
             }
         }
     }
