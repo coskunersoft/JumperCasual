@@ -59,6 +59,7 @@ public abstract class Jumper : GameActor<GameManager>
         meshRenderers=new List<Renderer>();
         meshRenderers.AddRange(GetComponentsInChildren<SkinnedMeshRenderer>());
         meshRenderers.AddRange(GetComponentsInChildren<MeshRenderer>());
+        meshRenderers.RemoveAll(x => x.transform == transform);
 
     }
 
@@ -174,25 +175,35 @@ public abstract class Jumper : GameActor<GameManager>
             rb.velocity = Vector3.zero;
             transform.position = lastCheckPoint;
             gameObject.SetActive(true);
-            RestartFadeIO();
+            StartCoroutine(RestartFadeIO());
+            Ray ray = new Ray(transform.position, -transform.up);
+            Debug.DrawRay(ray.origin, ray.direction * rayDistance, Color.blue, 0.1f);
+            Physics.Raycast(ray, out RaycastHit hit, 2000, layerMask);
+            if (hit.collider != null)
+            {
+                transform.position = hit.point+Vector3.up;
+            }
         }
     }
 
     public void UpdateCheckPoint(Transform checkPoint)
     {
-        lastCheckPoint = transform.position;
+        lastCheckPoint = transform.position+Vector3.forward*2;
     }
 
-    private async void RestartFadeIO()
+    private IEnumerator  RestartFadeIO()
     {
-        await System.Threading.Tasks.Task.Delay(300);
-        foreach (var item in meshRenderers)
+        for (int i = 0; i < 6; i++)
         {
-            foreach (var item2 in item.materials)
+            yield return new WaitForSeconds(0.1f);
+            foreach (var item in meshRenderers)
             {
-                var squence = DOTween.Sequence();
-                squence.Append(item2.DOFade(0f, 0.1f)).SetDelay(0.2f)
-                    .Append(item2.DOFade(1, 0.1f)).SetLoops(2).SetEase(Ease.Linear);
+                item.enabled = false;
+            }
+            yield return new WaitForSeconds(0.15f);
+            foreach (var item in meshRenderers)
+            {
+                item.enabled = true;
             }
         }
     }
