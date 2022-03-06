@@ -20,11 +20,11 @@ public class UIActor : GameSingleActor<UIActor>
 
     public GameObject bigButton;
     public Text tabToStartText;
-    Tween tabToStartTextTween=null;
+    Tween tabToStartTextTween = null;
 
     public override void ActorAwake()
     {
-        tabToStartTextTween = DOTween.Sequence().Append(tabToStartText.transform.DOScale(tabToStartText.transform.localScale / 1.2f, 0.6f)).SetLoops(-1,LoopType.Yoyo);
+        tabToStartTextTween = DOTween.Sequence().Append(tabToStartText.transform.DOScale(tabToStartText.transform.localScale / 1.2f, 0.6f)).SetLoops(-1, LoopType.Yoyo);
     }
 
     public void ButtonClick(int id)
@@ -43,7 +43,7 @@ public class UIActor : GameSingleActor<UIActor>
         }
     }
 
-   
+
     [GE(BaseGameEvents.LevelLoaded)]
     public void LoadGame()
     {
@@ -56,16 +56,19 @@ public class UIActor : GameSingleActor<UIActor>
     {
         InGameWindow.SetActive(false);
         WinGameWindow.SetActive(true);
+        SdkManager.Instance.Win();
+        PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
     }
-    [GE(BaseGameEvents.LoseGame)] 
+    [GE(BaseGameEvents.LoseGame)]
     public void LoseGame()
     {
-        Debug.Log("Fail");
+        //Debug.Log("Fail");
         InGameWindow.SetActive(false);
         LoseGameWindow.SetActive(true);
+        SdkManager.Instance.Fail();
     }
 
-    [GE(2000)] 
+    [GE(2000)]
     public void ShowTutorial()
     {
         Tutorial.gameObject.SetActive(true);
@@ -81,7 +84,7 @@ public class UIActor : GameSingleActor<UIActor>
         StartCoroutine(delay());
         IEnumerator delay()
         {
-            ActionText.text = ActionTextList[Random.Range(0,ActionTextList.Count)];
+            ActionText.text = ActionTextList[Random.Range(0, ActionTextList.Count)];
             ActionText.gameObject.SetActive(true);
             ActionText.transform.DOPunchScale(Vector3.one, 0.5f);
             yield return new WaitForSeconds(2);
@@ -105,7 +108,7 @@ public class UIActor : GameSingleActor<UIActor>
     public void OnGameStartTabClicked()
     {
         bigButton.SetActive(false);
-        if (tabToStartTextTween!=null)
+        if (tabToStartTextTween != null)
         {
             tabToStartTextTween.Kill();
         }

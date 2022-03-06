@@ -25,27 +25,157 @@ MonoBehaviour:
   UserMessagesSubmitted: 0
   UserMessagesFailed: 0
   CustomArea: 
-  gameKey: []
-  secretKey: []
-  Build: []
-  SelectedPlatformOrganization: []
-  SelectedPlatformStudio: []
-  SelectedPlatformGame: []
-  SelectedPlatformGameID: 
-  SelectedOrganization: 
-  SelectedStudio: 
-  SelectedGame: 
-  NewVersion: 
-  Changes: 
-  SignUpOpen: 1
-  StudioName: 
-  GameName: 
+  gameKey:
+  - 4203ae204e3e457e1982254bb892fb30
+  secretKey:
+  - 32f67a62f15737c84396b2e0895ecb88d5a9bbbb
+  Build:
+  - 1
+  SelectedPlatformOrganization:
+  - Voodoo
+  SelectedPlatformStudio:
+  - Voodoo
+  SelectedPlatformGame:
+  - Spring Race - android (Sky Games)
+  SelectedPlatformGameID: c5e20200
+  SelectedOrganization: 02000000
+  SelectedStudio: 01000000
+  SelectedGame: 0f000000
+  NewVersion: 7.3.21
+  Changes: '7.3.21
+
+    - fixed bug in internal error reporting
+
+
+    7.3.20
+
+    -
+    added event uuid to events sent
+
+
+    7.3.19
+
+    - updated dependencies
+
+
+    7.3.18
+
+    -
+    fixed fps event script to still run coroutines when Time.timeScale = 0 by using
+    WaitForSecondsRealtime instead of WaitForSeconds
+
+
+    7.3.17
+
+    - added method
+    manually update gamekey and secretkey
+
+
+    7.3.16
+
+    - fixed uwp build errors
+
+
+    7.3.15
+
+    -
+    changed frequency logic for fps events
+
+
+    7.3.14
+
+    - small fix
+
+
+    7.3.13
+
+    -
+    fixed crash for android builds
+
+
+    7.3.12
+
+    - removed imei identifiers and
+    other alternative identifiers from user identifier logic (android)
+
+
+    7.3.11
+
+    -
+    updated dependency to external dependency resolver
+
+
+    7.3.10
+
+    - adding
+    missing .meta file for upm release
+
+    - switched to using openupm for scoped
+    registry when using upm, please update the upm setup for the unity sdk
+
+
+    7.3.9
+
+    -
+    fixed upm package.json
+
+
+    7.3.8
+
+    - fixed upm dependecy
+
+
+    7.3.7
+
+    -
+    added depedencies.xml for upm release
+
+
+    7.3.6
+
+    - fixed playmaker bugs
+
+
+    7.3.5
+
+    -
+    changed settings to have FPS events turned off by default
+
+
+    7.3.4
+
+    -
+    added error events to be sent for invalid custom event fields used
+
+    - added
+    optional mergeFields argument to event methods to merge with global custom fields
+    instead of overwrite them
+
+
+    7.3.3
+
+    - playmaker fixes
+
+
+    7.3.2
+
+    -
+    fixed missing custom event fields for when trying to fix missing session end
+    events
+
+
+    7.3.1
+
+    - fixed editor ui bug with games with the same name'
+  SignUpOpen: 0
+  StudioName: SkyGames
+  GameName: JumperCasual
   OrganizationName: 
   OrganizationIdentifier: 
-  EmailGA: 
-  IntroScreen: 1
-  InfoLogEditor: 1
-  InfoLogBuild: 1
+  EmailGA: ccihankaplann@gmail.com
+  IntroScreen: 0
+  InfoLogEditor: 0
+  InfoLogBuild: 0
   VerboseLogBuild: 0
   UseManualSessionHandling: 0
   SendExampleGameDataToMyGame: 0
@@ -57,12 +187,12 @@ MonoBehaviour:
   ResourceItemTypes: []
   ResourceCurrencies: []
   LastCreatedGamePlatform: 0
-  Platforms: 
-  CurrentInspectorState: 0
+  Platforms: 0b000000
+  CurrentInspectorState: 1
   ClosedHints: 
   DisplayHints: 0
   DisplayHintsScrollState: {x: 0, y: 0}
-  Logo: {fileID: 0}
+  Logo: {fileID: 2800000, guid: 98df8f9c5678a4e5d964caa1244e8958, type: 3}
   UpdateIcon: {fileID: 0}
   InfoIcon: {fileID: 0}
   DeleteIcon: {fileID: 0}
@@ -85,7 +215,7 @@ MonoBehaviour:
   IncludeGooglePlay: 1
   FpsCriticalThreshold: 20
   FpsCirticalSubmitInterval: 1
-  PlatformFoldOut: 
+  PlatformFoldOut: 01
   CustomDimensions01FoldOut: 0
   CustomDimensions02FoldOut: 0
   CustomDimensions03FoldOut: 0

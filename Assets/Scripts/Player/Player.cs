@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Coskunerov.Actors;
 using Coskunerov.Tools;
-using Sirenix.OdinInspector;
 using DG.Tweening;
 using Coskunerov.Managers;
 

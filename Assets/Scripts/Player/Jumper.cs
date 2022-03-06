@@ -6,7 +6,6 @@ using Coskunerov.Managers;
 using Coskunerov.EventBehaviour;
 using Coskunerov.EventBehaviour.Attributes;
 using Coskunerov.Tools;
-using Sirenix.OdinInspector;
 using DG.Tweening;
 using System.Linq;
 
@@ -131,7 +130,7 @@ public abstract class Jumper : GameActor<GameManager>
         {
             rb.AddForce(Vector3.forward * Random.Range(200, 300));
         }
-        Debug.Log("jUMOP Force :: " + jumpForceFinal);
+       // Debug.Log("jUMOP Force :: " + jumpForceFinal);
         strectAmount = 0;
     }
 
